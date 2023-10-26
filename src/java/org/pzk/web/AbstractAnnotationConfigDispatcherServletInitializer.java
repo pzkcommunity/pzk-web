@@ -15,6 +15,7 @@ public abstract class AbstractAnnotationConfigDispatcherServletInitializer exten
     @Override
     protected AnnotationConfigApplicationContext createRootApplicationContext() {
 
+        //子类需要实现这个方法，扫描的父容器配置类
         final Class<?>[] rootConfigClasses = getRootConfigClasses();
         if (!ObjectUtils.isEmpty(rootConfigClasses)){
             final AnnotationConfigApplicationContext rootContext = new AnnotationConfigApplicationContext();
@@ -28,6 +29,7 @@ public abstract class AbstractAnnotationConfigDispatcherServletInitializer exten
     @Override
     protected WebApplicationContext createWebApplicationContext() {
 
+        //子类需要实现这个方法，扫描的子容器配置类
         final Class<?>[] webConfigClasses = getWebConfigClasses();
         if (!ObjectUtils.isEmpty(webConfigClasses)){
             final AnnotationConfigWebApplicationContext webContext = new AnnotationConfigWebApplicationContext();

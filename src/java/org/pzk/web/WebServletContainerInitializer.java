@@ -34,15 +34,16 @@ public class WebServletContainerInitializer implements ServletContainerInitializ
             //排除接口和抽象类
             for (Class<?> webApplication : webApplications) {
                 if (!webApplication.isInterface() && !Modifier.isAbstract(webApplication.getModifiers())
-                        && WebApplicationInitializer.class.isAssignableFrom(webApplication)){
+                        && WebApplicationInitializer.class.isAssignableFrom(webApplication)){//是WebApplicationInitializer的子
                     try {
+                        //spring 工具类实例化
                         initializers.add((WebApplicationInitializer) ReflectionUtils.accessibleConstructor(webApplication).newInstance());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
-            // 调用onStartUp()方法
+            // 统一调用onStartUp()方法
             if (!ObjectUtils.isEmpty(initializers)){
                 for (WebApplicationInitializer initializer : initializers) {
                     initializer.onStartUp(ctx);
