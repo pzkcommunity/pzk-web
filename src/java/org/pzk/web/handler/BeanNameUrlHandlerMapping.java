@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class BeanNameUrlHandlerMapping extends AbstractHandlerMapping{
     @Override
-    protected org.xhy.web.handler.HandlerMethod getHandlerInternal(HttpServletRequest request) {
+    protected HandlerMethod getHandlerInternal(HttpServletRequest request) {
         return null;
     }
 

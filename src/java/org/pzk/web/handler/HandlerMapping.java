@@ -8,5 +8,7 @@ import javax.servlet.http.HttpServletRequest;
  * HandlerExecutionChain中包含拦截器链
  */
 public interface HandlerMapping {
-    HandlerExecutionChain getHandler(HttpServletRequest request) throws HttpRequestMethodNotSupportedException, Exception;
+//    HandlerExecutionChain getHandler(HttpServletRequest request) throws HttpRequestMethodNotSupportedException, Exception;
+    HandlerExecutionChain getHandler(HttpServletRequest request) throws Exception;
+
 }

@@ -54,7 +54,7 @@ public class HandlerExecutionChain {
         }
     }
 
-    public void afterCompletion(HttpServletRequest req, HttpServletResponse resp, org.xhy.web.handler.HandlerMethod handlerMethod, Exception ex) {
+    public void afterCompletion(HttpServletRequest req, HttpServletResponse resp, HandlerMethod handlerMethod, Exception ex) {
         for (HandlerInterceptor interceptor : this.interceptors) {
             interceptor.afterCompletion(req,resp,handlerMethod,ex);
         }
