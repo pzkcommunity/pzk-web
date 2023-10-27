@@ -24,6 +24,7 @@ public abstract class BaseHttpServlet extends HttpServlet {
     // web ioc初始化以及配置
     @Override
     public void init() throws ServletException {
+        //获取父容器
         final ServletContext servletContext = getServletContext();
 
         ApplicationContext rootContext = (ApplicationContext) servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
@@ -48,5 +49,6 @@ public abstract class BaseHttpServlet extends HttpServlet {
         onRefresh(webApplicationContext);
     }
 
+    //抽象方法，让子类实现
     protected abstract void onRefresh(ApplicationContext webApplicationContext);
 }

@@ -8,7 +8,7 @@ import org.springframework.util.ObjectUtils;
 import javax.servlet.Filter;
 
 /**
- * 留给子类的配置类创建spring ioc以及web ioc
+ * 实现创建父容器和子容器，扫描父子容器配置类由子类实现
  */
 public abstract class AbstractAnnotationConfigDispatcherServletInitializer extends AbstractDispatcherServletInitializer{
 
@@ -16,9 +16,12 @@ public abstract class AbstractAnnotationConfigDispatcherServletInitializer exten
     protected AnnotationConfigApplicationContext createRootApplicationContext() {
 
         //子类需要实现这个方法，扫描的父容器配置类
+        //获取包扫描配置类，相当于xml配置中的applicationContext.xml
         final Class<?>[] rootConfigClasses = getRootConfigClasses();
         if (!ObjectUtils.isEmpty(rootConfigClasses)){
+            //创建root 父容器
             final AnnotationConfigApplicationContext rootContext = new AnnotationConfigApplicationContext();
+            //加载配置类
             rootContext.register(rootConfigClasses);
             return rootContext;
         }
@@ -27,12 +30,15 @@ public abstract class AbstractAnnotationConfigDispatcherServletInitializer exten
 
 
     @Override
-    protected WebApplicationContext createWebApplicationContext() {
+    protected WebApplicationContext createServletApplicationContext() {
 
         //子类需要实现这个方法，扫描的子容器配置类
-        final Class<?>[] webConfigClasses = getWebConfigClasses();
+        //获取包扫描配置类，相当于xml配置中的springmvc.xml
+        final Class<?>[] webConfigClasses = getServletConfigClasses();
         if (!ObjectUtils.isEmpty(webConfigClasses)){
+            //创建子容器
             final AnnotationConfigWebApplicationContext webContext = new AnnotationConfigWebApplicationContext();
+            //加载配置类
             webContext.register(webConfigClasses);
             return webContext;
         }

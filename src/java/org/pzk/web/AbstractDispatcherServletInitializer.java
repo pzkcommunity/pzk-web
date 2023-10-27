@@ -32,15 +32,20 @@ public abstract class AbstractDispatcherServletInitializer implements WebApplica
         // 刷新父容器 -> 在源码当中通过servlet 事件进行refresh
         rootApplicationContext.refresh();
 
-        final WebApplicationContext webApplicationContext = createWebApplicationContext();
+        //子容器
+        final WebApplicationContext webApplicationContext = createServletApplicationContext();
         // 创建DispatcherServlet
         final DispatcherServlet dispatcherServlet = new DispatcherServlet(webApplicationContext);
-        final ServletRegistration.Dynamic dynamic = servletContext.addServlet(DEFAULT_SERVLET_NAME, dispatcherServlet);
+        //将web组件servlet注册到servletContext
+        final ServletRegistration.Dynamic dynamic =
+                servletContext.addServlet(DEFAULT_SERVLET_NAME, dispatcherServlet);
         // 配置
         dynamic.setLoadOnStartup(1);
         final MultipartConfigElement configElement = new MultipartConfigElement(null,5*M,5*M,5);
         dynamic.setMultipartConfig(configElement);
+        //配置DispatcherServlet的映射信息
         dynamic.addMapping(getMappings());
+        //注册web组件filter
         final Filter[] filters = getFilters();
         if (!ObjectUtils.isEmpty(filters)){
             for (Filter filter : filters) {
@@ -61,11 +66,19 @@ public abstract class AbstractDispatcherServletInitializer implements WebApplica
     protected abstract AnnotationConfigApplicationContext createRootApplicationContext();
 
     // 创建子容器
-    protected abstract WebApplicationContext createWebApplicationContext();
+    protected abstract WebApplicationContext createServletApplicationContext();
 
-    // 获取包扫描配置类
+
+    /**
+     * 获取包扫描配置类，相当于xml配置中的applicationContext.xml
+     * @return
+     */
     protected abstract Class<?>[] getRootConfigClasses();
 
-    protected abstract Class<?>[] getWebConfigClasses();
+    /**
+     * 获取配置类，相当于xml配置中的springmvc.xml
+     * @return
+     */
+    protected abstract Class<?>[] getServletConfigClasses();
 
 }
