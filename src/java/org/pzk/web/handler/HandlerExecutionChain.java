@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * 包装HandlerMethod
+ */
 public class HandlerExecutionChain {
 
     private final HandlerMethod handlerMethod;

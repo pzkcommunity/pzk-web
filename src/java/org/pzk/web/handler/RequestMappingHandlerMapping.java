@@ -18,7 +18,9 @@ import java.util.Map;
 
 public class RequestMappingHandlerMapping extends AbstractHandlerMapping {
 
-    // 根据路径返回HandlerMethod
+    /**
+     * 根据路径返回HandlerMethod
+      */
     @Override
     protected HandlerMethod getHandlerInternal(HttpServletRequest request) throws Exception {
         return lockUpPath(request);

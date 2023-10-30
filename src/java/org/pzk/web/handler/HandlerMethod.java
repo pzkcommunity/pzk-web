@@ -13,6 +13,9 @@ import java.util.Map;
 import java.util.Objects;
 
 
+/**
+ * 包装对应的路径映射方法
+ */
 public class HandlerMethod {
 
     protected Object bean;

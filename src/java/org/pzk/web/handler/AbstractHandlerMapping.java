@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 /**
  * 定义获取HandlerMethod共同功能，以及初始化映射器组件
  *
- * 抽取共性，模板模式
+ * 抽取共性，模板模式，子类继承
  */
 public abstract class AbstractHandlerMapping  extends ApplicationObjectSupport implements HandlerMapping, InitializingBean {
     protected int order;

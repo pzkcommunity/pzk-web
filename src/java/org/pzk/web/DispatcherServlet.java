@@ -44,6 +44,7 @@ public class DispatcherServlet extends BaseHttpServlet {
     // 组件初始化
     @Override
     protected void onRefresh(ApplicationContext webApplicationContext) {
+        //初始化handlerMapping
         initHandlerMapping(webApplicationContext);
         initHandlerMethodAdapter(webApplicationContext);
         initHandlerException(webApplicationContext);
@@ -85,7 +86,7 @@ public class DispatcherServlet extends BaseHttpServlet {
             this.handlerMappings = new ArrayList<>(map.values());
             AnnotationAwareOrderComparator.sort(this.handlerMappings);
         }else {
-            // 则从默认配置文件中拿
+            // 则从默认配置文件中拿并初始化
             this.handlerMappings.addAll(getDefaultStrategies(webApplicationContext,HandlerMapping.class));
         }
 //        this.handlerMappings.sort(Comparator.comparingInt(Ordered::getOrder));
@@ -166,9 +167,18 @@ public class DispatcherServlet extends BaseHttpServlet {
     }
 
 
+    /**
+     * 从配置文件获取接口的实现类初始化
+     *
+     * @param context ioc容器
+     * @param strategyInterface 接口全限定类名
+     * @param <T>
+     * @return
+     */
     protected <T> List<T> getDefaultStrategies(ApplicationContext context, Class<T> strategyInterface) {
         if (defaultStrategies == null) {
             try {
+                //文件路径获取资源
                 ClassPathResource resource = new ClassPathResource(DEFAULT_STRATEGIES_PATH, DispatcherServlet.class);
                 defaultStrategies = PropertiesLoaderUtils.loadProperties(resource);
             } catch (IOException ex) {
@@ -179,12 +189,16 @@ public class DispatcherServlet extends BaseHttpServlet {
         String key = strategyInterface.getName();
         String value = defaultStrategies.getProperty(key);
         if (value != null) {
+            //以逗号分隔（多个实现类）
             String[] classNames = StringUtils.commaDelimitedListToStringArray(value);
             List<T> strategies = new ArrayList<>(classNames.length);
             for (String className : classNames) {
                 try {
+                    //初始化
                     Class<?> clazz = ClassUtils.forName(className, DispatcherServlet.class.getClassLoader());
+                    //放到ioc容器中
                     Object strategy = createDefaultStrategy(context, clazz);
+                    //将结果返回
                     strategies.add((T) strategy);
                 } catch (ClassNotFoundException ex) {
                     throw new BeanInitializationException(

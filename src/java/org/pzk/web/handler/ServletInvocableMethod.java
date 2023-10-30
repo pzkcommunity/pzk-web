@@ -13,11 +13,7 @@ import org.pzk.web.support.WebServletRequest;
 import java.lang.reflect.Method;
 
 /**
- * @description: 用于执行HandlerMethod, 也会保存执行HandlerMethod的基础组件
- * @Author: Xhy
- * @gitee: https://gitee.com/XhyQAQ
- * @copyright: B站: https://space.bilibili.com/152686439
- * @CreateTime: 2023-10-15 15:41
+ * 用于执行HandlerMethod, 也会保存执行HandlerMethod的基础组件
  */
 public class ServletInvocableMethod extends HandlerMethod{
 
