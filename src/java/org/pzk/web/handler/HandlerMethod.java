@@ -24,8 +24,10 @@ public class HandlerMethod {
 
     protected Method method;
 
+    //请求路径 类拼接方法上的路径
     protected String path;
 
+    //请求类型
     protected RequestMethod[] requestMethods = new RequestMethod[0];
 
     // 增强的参数 plus

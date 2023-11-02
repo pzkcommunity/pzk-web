@@ -32,7 +32,7 @@ public class RequestMappingHandlerMapping extends AbstractHandlerMapping {
         // 获取当前类
         final ApplicationContext context = obtainApplicationContext();
         final Class<?> type = context.getType(name);
-        // 获取当前类下的所有方法
+        // 获取当前类下的所有方法 （不要父类的）
         final Method[] methods = type.getDeclaredMethods();
         List<HandlerMethod> handlerMethods = new ArrayList<>();
         // 获得类上的路径
@@ -70,7 +70,7 @@ public class RequestMappingHandlerMapping extends AbstractHandlerMapping {
                 final String value = requestMapping.value();
                 String childPath = value.equals("") ? "" : value;
                 handlerMethod.setRequestMethods(requestMapping.requestMethod());
-                // 拼接
+                // 拼接类上的路径和方法上的路径
                 handlerMethod.setPath(path + childPath);
 
                 handlerMethods.add(handlerMethod);
@@ -81,6 +81,8 @@ public class RequestMappingHandlerMapping extends AbstractHandlerMapping {
             for (HandlerMethod handlerMethod : handlerMethods) {
                 handlerMethod.setExceptionHandlerMethodMap(exceptionHandlerMethodMap);
                 handlerMethod.setConvertHandlerMap(convertHandlerMap);
+
+                //handlerMethod 保存到集合中
                 registerMapper(handlerMethod);
             }
         }
@@ -95,6 +97,8 @@ public class RequestMappingHandlerMapping extends AbstractHandlerMapping {
      */
     @Override
     protected boolean isHandler(Class type) {
+        //这个工具类可以帮助我们递归的方式去查找是否有这个注解
+        //比如@RestController 里面有@Controller注解
         return AnnotatedElementUtils.hasAnnotation(type, Controller.class);
     }
 

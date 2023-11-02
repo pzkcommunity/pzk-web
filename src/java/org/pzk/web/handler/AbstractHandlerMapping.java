@@ -130,6 +130,7 @@ public abstract class AbstractHandlerMapping  extends ApplicationObjectSupport i
     private void initHandlerMethod() throws Exception {
         // 获取所有bean
         final ApplicationContext context = obtainApplicationContext();
+        //全限定类名
         final String[] names = BeanFactoryUtils.beanNamesForTypeIncludingAncestors(context, Object.class);
         for (String name : names) {
             // 拿到当前Class
@@ -170,10 +171,10 @@ public abstract class AbstractHandlerMapping  extends ApplicationObjectSupport i
     // 保存HandlerMethod
     class MapperRegister{
 
-        // 精确路径
+        // 精确路径 可能请求路径相同但是请求类型不同所以value用set集合
         Map<String, Set<HandlerMethod>> accurateMatchingPath = new HashMap<>();
 
-        // 模糊路径 fuzzy matching
+        // 模糊路径 fuzzy matching  可能请求路径相同但是请求类型不同所以value用set集合
         Map<String,Set<HandlerMethod>> fuzzyMatchingPath = new HashMap<>();
 
 
