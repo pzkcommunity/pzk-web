@@ -99,6 +99,7 @@ public class DispatcherServlet extends BaseHttpServlet {
         Exception ex = null;
         HandlerExecutionChain handlerExecutionChain = null;
         try {
+            //获取映射器
             handlerExecutionChain = getHandler(req);
             if (ObjectUtils.isEmpty(handlerExecutionChain)){
                 resp.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -156,7 +157,8 @@ public class DispatcherServlet extends BaseHttpServlet {
 
     // 获取映射器
     private HandlerExecutionChain getHandler(HttpServletRequest req) throws Exception {
-        // 拿到所有组件进行遍历
+        // 拿到所有组件进行遍历  获取handler的方法由子实现类实现(三种实现方式：requestMapping、webflux、bean名称)
+        //目前只写了requestMapping的，三者都是由模板 AbstractHandlerMethod调用不同实现
         for (HandlerMapping handlerMapping : handlerMappings) {
             final HandlerExecutionChain handler = handlerMapping.getHandler(req);
             if (handler!=null){

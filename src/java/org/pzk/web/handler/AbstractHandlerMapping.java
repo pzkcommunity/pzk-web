@@ -93,12 +93,14 @@ public abstract class AbstractHandlerMapping  extends ApplicationObjectSupport i
     }
 
     protected HandlerMethod getHandlerMethod(Set<HandlerMethod> handlerMethods,HttpServletRequest request) throws Exception {
+        //请求类型get post...
         final String requestMethod = request.getMethod();
         for (HandlerMethod handlerMethod : handlerMethods) {
             // RequestMapping 接受任意请求
             // GetMapping 接受get
             // DeleteMapping 接受delete
             for (RequestMethod method : handlerMethod.getRequestMethods()) {
+                //判断请求类型是否相同
                 if (method.name().equals(requestMethod)){
                     return handlerMethod;
                 }
@@ -182,7 +184,7 @@ public abstract class AbstractHandlerMapping  extends ApplicationObjectSupport i
             // 获取请求路径
             String path = handlerMethod.getPath();
             if (path.contains("{") && path.contains("}")){
-                // /order/get/{id} -> /order/get/1
+                // /order/get/{id} -> /order/get/1 /order/get/2
                 path = path.replaceAll("\\{\\w+\\}", "(\\\\w+)");
                 register(fuzzyMatchingPath,path,handlerMethod);
             }else {
