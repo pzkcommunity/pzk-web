@@ -118,6 +118,7 @@ public abstract class AbstractHandlerMapping  extends ApplicationObjectSupport i
 
 
 
+    @Override
     public int getOrder() {
         return order;
     }

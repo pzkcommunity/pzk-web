@@ -84,12 +84,12 @@ public class DispatcherServlet extends BaseHttpServlet {
         final Map<String, HandlerMapping> map = BeanFactoryUtils.beansOfTypeIncludingAncestors(webApplicationContext, HandlerMapping.class, true, false);
         if (!ObjectUtils.isEmpty(map)){
             this.handlerMappings = new ArrayList<>(map.values());
-            AnnotationAwareOrderComparator.sort(this.handlerMappings);
+//            AnnotationAwareOrderComparator.sort(this.handlerMappings);
         }else {
             // 则从默认配置文件中拿并初始化
             this.handlerMappings.addAll(getDefaultStrategies(webApplicationContext,HandlerMapping.class));
         }
-//        this.handlerMappings.sort(Comparator.comparingInt(Ordered::getOrder));
+        this.handlerMappings.sort(Comparator.comparingInt(Ordered::getOrder));
     }
 
 

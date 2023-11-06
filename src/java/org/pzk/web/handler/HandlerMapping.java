@@ -1,5 +1,7 @@
 package org.pzk.web.handler;
 
+import org.springframework.core.Ordered;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -7,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * HandlerExecutionChain中包含拦截器链
  */
-public interface HandlerMapping {
+public interface HandlerMapping extends Ordered {
 //    HandlerExecutionChain getHandler(HttpServletRequest request) throws HttpRequestMethodNotSupportedException, Exception;
     HandlerExecutionChain getHandler(HttpServletRequest request) throws Exception;
 
