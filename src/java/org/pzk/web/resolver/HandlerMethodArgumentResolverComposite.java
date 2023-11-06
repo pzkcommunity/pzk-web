@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * 组合器
+ */
 public class HandlerMethodArgumentResolverComposite implements HandlerMethodArgumentResolver{
 
     final List<HandlerMethodArgumentResolver> resolvers = new ArrayList<>();
@@ -39,6 +42,7 @@ public class HandlerMethodArgumentResolverComposite implements HandlerMethodArgu
 
         // 1.获取对应的参数解析器
         final HandlerMethodArgumentResolver resolverArgument = getResolverArgument(parameter);
+        //2.使用这个解析器解析参数
         return resolverArgument.resolveArgument(parameter,handlerMethod,webServletRequest,convertComposite);
     }
 

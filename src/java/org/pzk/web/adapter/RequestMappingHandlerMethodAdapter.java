@@ -40,6 +40,7 @@ public class RequestMappingHandlerMethodAdapter extends ApplicationObjectSupport
     @Override
     public void handler(HttpServletRequest req, HttpServletResponse res, HandlerMethod handler) throws Exception {
         final WebServletRequest webServletRequest = new WebServletRequest(req, res);
+        //类保存映射器、参数解析器、类型转换器，并去执行这里的逻辑
         final ServletInvocableMethod invocableMethod = new ServletInvocableMethod();
         invocableMethod.setHandlerMethod(handler);
         invocableMethod.setConvertComposite(convertComposite);
@@ -64,7 +65,9 @@ public class RequestMappingHandlerMethodAdapter extends ApplicationObjectSupport
     // 初始化基础组件
     @Override
     public void afterPropertiesSet() throws Exception {
+        //初始化所有参数解析器
         resolverComposite.addResolvers(getDefaultArgumentResolver());
+        //初始化所有类型转换器
         convertComposite.addConvertMap(getDefaultConvert());
         returnValueHandlerComposite.addMethodReturnValueHandlers(getDefaultMethodReturnValueHandler());
 
