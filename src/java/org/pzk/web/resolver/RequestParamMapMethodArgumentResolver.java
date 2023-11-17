@@ -9,6 +9,7 @@ import org.pzk.web.support.WebServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -63,6 +64,7 @@ public class RequestParamMapMethodArgumentResolver implements HandlerMethodArgum
             return true;
         }
 
+        //集合
         if (parameterType == List.class || parameterType == Collection.class){
             // 获取集合中的泛型是否是MultipartFile []
             final Type genericParameterType = parameter.getGenericParameterType();
@@ -72,10 +74,23 @@ public class RequestParamMapMethodArgumentResolver implements HandlerMethodArgum
                 return true;
             }
         }
+        //是否是数组
         if (parameterType.isArray() && parameterType == MultipartFile.class){
             return true;
         }
 
         return false;
+    }
+
+    public void test (List<MultipartFile> files){
+
+    }
+
+    //测试
+    public static void main(String[] args) throws NoSuchMethodException {
+        Method test = RequestParamMapMethodArgumentResolver.class.getDeclaredMethod("test", List.class);
+
+        MethodParameter methodParameter = new MethodParameter(test, 0);
+        System.out.println(isMultipartFile(methodParameter));
     }
 }

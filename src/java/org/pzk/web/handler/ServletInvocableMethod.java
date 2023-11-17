@@ -69,6 +69,7 @@ public class ServletInvocableMethod extends HandlerMethod{
         Object args[] = new Object[parameters.length];
         for (int i = 0; i < parameters.length; i++) {
             final MethodParameter parameter = parameters[i];
+            //参数name初始化
             parameter.initParameterNameDiscovery(nameDiscoverer);
 
             args[i] = findProviderArgs(parameter,providerArgs);
